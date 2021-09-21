@@ -1,26 +1,29 @@
 const express = require('express')
-const db = require('./data/db-config')
+const helmet = require('helmet')
+const cors = require('cors')
 
-function getAllUsers(){
-    return db('users')
-}
-
-async function insertUser(user){
-    const [newUserObject] = await db('users').insert(user, ['user_id', 'username', 'password'])
-    return newUserObject
-}
+const authRouter = require('./auth/auth-router')
+const usersRouter = require('./users/users-router')
+const plantRouter = require('./plants/plants-router')
+const restricted = require('./auth/auth-restricted')
 
 const server = express()
 server.use(express.json())
+server.use(helmet())
+server.use(cors())
 
 
-server.get('/api/users', async (req, res)=>{
-    res.json(await getAllUsers())
+server.use('/api/auth', authRouter)
+server.use('/api/users', restricted, usersRouter)
+server.use('/api/plants', plantRouter)
+
+
+
+server.use((err, req, res, next) => { // eslint-disable-line
+    res.status(500).json({
+      message: err.message,
+      stack: err.stack,
+    })
 })
-
-server.post('/api/users', async (req, res)=>{
-    res.status(201).json(await insertUser(req.body))
-})
-
 
 module.exports = server
