@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
@@ -14,7 +15,17 @@
     "nodemon": "^2.0.12"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run",
+    "migrateh": "heroku run knex migrate:latest -a YOUR_HEROKU_APP_NAME",
+    "rollbackh": "heroku run knex migrate:rollback -a YOUR_HEROKU_APP_NAME",
+    "databaseh": "heroku pg:psql -a YOUR_HEROKU_APP_NAME",
+    "seedh": "heroku run knex seed:run -a YOUR_HEROKU_APP_NAME",
+    "test": "cross-env NODE_ENV=testing jest --watchAll --verbose --runInBand",
+    "deploy": "git push heroku main"
   },
   "repository": {
     "type": "git",
