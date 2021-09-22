@@ -1,3 +1,5 @@
+const Users = require('../users/users-model')
+
 const checkUsernameExists = (req, res, next) => {
     const { username } = req.body
     Users.getBy({ username })
