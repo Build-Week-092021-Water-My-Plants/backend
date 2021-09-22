@@ -1,16 +1,19 @@
 const jwt = require('jsonwebtoken')
-const JWT_SECRET = process.env.JWT_SECRET || 'fan of the game'
+const { JWT_SECRET } = require('../secrets/index')
 
-function tokenBuilder(user) {   
-    const payload = {
-      sub: user.user_id,
-      username: user.username,
-    };
-    const options = {
-      expiresIn: "1d",
-    };
-    const result = jwt.sign(payload, JWT_SECRET, options);
-    return result;
+module.exports = function (user) {
+  const payload = {
+    subject: user.user_id,
+    username: user.username,
+    phone_number: user.phone_number,
   }
-
-  module.exports = tokenBuilder
+  const options = {
+    expiresIn: '1d'
+  }
+  const token = jwt.sign(
+    payload,
+    JWT_SECRET,
+    options,
+  )
+  return token
+}
