@@ -5,12 +5,14 @@ exports.seed = async function (knex) {
         species: "ivy",
         h2oFrequency: "Once a day",
         user_id: 1,
+        image: ''
       },
       {
         nickname: "Happiness Project",
         species: "succulent",
         h2oFrequency: "Once a day",
         user_id: 2,
+        image: ''
       },
     ])
   }
