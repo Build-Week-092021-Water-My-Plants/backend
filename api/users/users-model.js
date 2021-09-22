@@ -10,7 +10,7 @@ function getBy(filter) {
 
 async function createUser(user) {
     const [id] = await db("users").insert(user)
-    return getUsers().where({ id }).first();
+    return getUsers().where({ id }).first()
 }
 
 module.exports = {

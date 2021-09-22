@@ -5,7 +5,7 @@ function getPlants() {
 }
 
 function getBy(filter) {
-    return db("plants").where(filter).first()
+    return db("plants").where(filter).orderBy('plant_id')
   }
 
 async function createPlant(plant) {
