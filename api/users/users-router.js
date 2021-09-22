@@ -1,29 +1,42 @@
-const express = require("express");
-const router = express.Router();
-const Users = require("./users-model");
+const router = require("express").Router()
+const Users = require("./users-model.js")
+const { checkUserExists } = require('./users-middleware')
 
-router.get("/", async (req, res, next) => {
-  await Users
-    .getUsers()
-    .then((users) => {
-      res.status(200).json(users);
+router.get("/", (req, res, next) => {
+  Users.get()
+    .then(usersList => {
+      res.status(200).json(usersList)
     })
-    .catch(next());
+    .catch(next)
 });
 
-router.get("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const data = await Users.getBy({ id });
+router.get("/:id", (req, res, next) => {
+  const { id } = req.params
+  Users.getById(id)
+    .then(currentUser => {
+      res.status(200).json(currentUser)
+    })
+    .catch(next)
+}) 
 
-    if (data) {
-      return res.status(200).json(data);
-    } else {
-      res.status(400).json(`The user with id ${id} could not be found`);
-    }
-  } catch {
-    next();
-  }
-});
+router.get("/:id/plants", checkUserExists, (req, res, next) => {
+  const { id } = req.params
+  Users.getUserPlants(id)
+    .then(selectedUser => {
+      res.status(200).json(selectedUser)
+    })
+    .catch(next)
+})
 
-module.exports = router; 
+router.put("/:id", checkUserExists, (req, res, next) => {
+  const { id } = req.params
+  Users.update(id, req.body)
+    .then(() => {
+      res.status(200).json({message: "User info updated"})
+    })
+    .catch(() => {
+      res.status(500).json({message: "Invalid change."})
+    })
+})
+ 
+module.exports = router
