@@ -1,60 +1,53 @@
-const express = require('express')
-const router = express.Router()
-const helpers = require("./plants-model")
+const router = require("express").Router()
+const Plants = require('./plants-model')
+const { noMissingInformation, checkUserIdExists } = require('./plants-middleware')
 
-router.get("/", async (req, res, next) => {
-  await helpers
-    .getPlants()
-    .then((plants) => {
-      res.status(200).json(plants)
+router.get("/", (req, res, next) => {
+  Plants.get()
+    .then(plantsList => {
+      res.status(200).json(plantsList);
     })
-    .catch(next())
+    .catch(next)
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", (req, res, next) => {
   const { id } = req.params
-
-  try {
-    const data = await helpers.getBy({ id })
-
-    if (data) {
-      return res.status(200).json(data)
-    } else {
-      res.status(400).json(`The plant with id ${id} could not be found`)
-    }
-  } catch {
-    next()
-  }
-});
+  Plants.getById(id)
+    .then(currentPlant => {
+      res.status(200).json(currentPlant)
+    })
+    .catch(next)
+})
 
 router.put("/:id", (req, res, next) => {
-  const { id } = req.params;
-  helpers.update(id, req.body)
+  const { id } = req.params
+  Plants.update(id, req.body)
     .then(()=> {
-        helpers.getById(id)
+        Plants.getById(id)
             .then(updatedPlant => {
                 res.status(200).json(updatedPlant)
             })
     })
-    .catch(next);
-})
-
-router.post("/", (req, res, next) => {
-  helpers
-    .createPlant(req.body)
-    .then((plant) => {
-      res.status(201).json(plant)
-    })
-    .catch(next())
+    .catch(next)
 })
 
 router.delete("/:id", (req, res, next) => {
-  const { id } = req.params;
-  helpers.remove(id)
-      .then(removed => {
-          res.status(200).json({message: "disintegrated"})
-      })
-      .catch(next)
+    const { id } = req.params
+    Plants.remove(id)
+        .then(removed => {
+            res.status(200).json({message: "Plant was killed by magic"})
+        })
+        .catch(next)
 })
 
-module.exports = router 
+router.post("/", noMissingInformation, checkUserIdExists, (req, res, next) => {
+    const plant = req.body;
+  
+    Plants.add(plant)
+      .then(addedPlant => {
+        res.status(201).json(addedPlant)
+      })
+      .catch(next)
+});
+
+module.exports = router
