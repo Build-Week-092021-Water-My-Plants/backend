@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { JWT_SECRET } = require('../data/db-config')
+const JWT_SECRET = process.env.JWT_SECRET || 'fan of the game'
 
 function tokenBuilder(user) {   
     const payload = {

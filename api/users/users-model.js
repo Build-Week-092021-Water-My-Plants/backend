@@ -5,7 +5,7 @@ function getUsers() {
 }
 
 function getBy(filter) {
-    return db("users").where(filter).first()
+    return db("users").where(filter).orderBy('user_id')
   }
 
 async function createUser(user) {
