@@ -27,6 +27,18 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.put("/:id", (req, res, next) => {
+  const { id } = req.params;
+  helpers.update(id, req.body)
+    .then(()=> {
+        helpers.getById(id)
+            .then(updatedPlant => {
+                res.status(200).json(updatedPlant)
+            })
+    })
+    .catch(next);
+})
+
 router.post("/", (req, res, next) => {
   helpers
     .createPlant(req.body)
@@ -35,5 +47,14 @@ router.post("/", (req, res, next) => {
     })
     .catch(next())
 });
+
+router.delete("/:id", (req, res, next) => {
+  const { id } = req.params;
+  helpers.remove(id)
+      .then(removed => {
+          res.status(200).json({message: "disintegrated"})
+      })
+      .catch(next);
+})
 
 module.exports = router 
