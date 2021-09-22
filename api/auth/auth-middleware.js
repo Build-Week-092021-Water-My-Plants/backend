@@ -1,5 +1,5 @@
 const checkUsernameExists = (req, res, next) => {
-    const { username } = req.body;
+    const { username } = req.body
     Users.getBy({ username })
         .then(exists => {
             if (!exists.length) {
@@ -13,7 +13,7 @@ const checkUsernameExists = (req, res, next) => {
 }
 
 function checkUsernameFree(req, res, next) {
-    const { username } = req.body;
+    const { username } = req.body
     Users.getBy({ username })
         .then(exists => {
             if (exists.length) {
@@ -26,7 +26,7 @@ function checkUsernameFree(req, res, next) {
 }
 
 const noMissingInformation = (req, res, next) => {
-    const { username, password, phone_number } = req.body;
+    const { username, password, phone_number } = req.body
     if (!username || !password || !phone_number) {
         res.status(422).json({message: "Username, password, and mobile number are required."})
     } else {
