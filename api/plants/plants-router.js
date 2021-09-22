@@ -46,7 +46,7 @@ router.post("/", (req, res, next) => {
       res.status(201).json(plant)
     })
     .catch(next())
-});
+})
 
 router.delete("/:id", (req, res, next) => {
   const { id } = req.params;
@@ -54,7 +54,7 @@ router.delete("/:id", (req, res, next) => {
       .then(removed => {
           res.status(200).json({message: "disintegrated"})
       })
-      .catch(next);
+      .catch(next)
 })
 
 module.exports = router 
