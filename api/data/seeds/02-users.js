@@ -3,12 +3,12 @@ exports.seed = async function (knex) {
       {
         username: "PETE BEN",
         password: "summertime90",
-        phone: "911",
+        phone_number: "911",
       },
       {
         username: "Anthony Spikes",
         password: "FreeWWorld",
-        phone: "123344",
+        phone_number: "123344",
       },
     ])
   } 
