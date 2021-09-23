@@ -13,7 +13,7 @@ exports.up = async function(knex) {
         plants.increments('plant_id')
         plants.string('nickname', 200).notNullable()
         plants.string('species', 200).notNullable()
-        plants.string('h2oFrequency', 255).notNullable()
+        plants.decimal('h2oFrequency', 255).notNullable()
         plants.string('image')
         plants
             .integer('user_id')
