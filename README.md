@@ -1,37 +1,55 @@
-# backend
+# back-end
+**Water My Plants Endpoints:**
 
-Auth Endpoints:
+API: https://waterplantsbackend.herokuapp.com/api/
 
-[POST]
-https://waterplantsbackend.herokuapp.com/api/auth/login
+**Auth:**
 
-[POST]
-https://waterplantsbackend.herokuapp.com/api/auth/register
+*HTTP Methods:*
 
+GET -
+    `/auth/logout`
 
-Plants Endpoints:
+POST -
+    `/auth/register` 
+    `(required user properties: username, password, phone_number),`
+    `.`
+    `.`
+    `/auth/login` 
+    `(required properties: username, password) `
 
-[GET]
-https://waterplantsbackend.herokuapp.com/api/plants/
-
-[GET]
-https://waterplantsbackend.herokuapp.com/api/plants/:id
-
-[POST]
-https://waterplantsbackend.herokuapp.com/api/plants/
-
-[PUT]
-https://waterplantsbackend.herokuapp.com/api/plants/:id
-
-[DELETE]
-https://waterplantsbackend.herokuapp.com/api/plants/:id
+**Users:**
 
 
 
-User Endpoints: (protected)
+*HTTP Methods:*
 
-[GET]
-https://waterplantsbackend.herokuapp.com/api/users/
 
-[GET]
-https://waterplantsbackend.herokuapp.com/api/users/:id
+GET - 
+    `/users,` 
+    `/users/:id, `
+    `/users/:id/plants`
+
+PUT - `/users/:id`
+
+
+**Plants:**
+
+
+*HTTP Methods:*
+
+
+GET - 
+    `/plants,`
+    `/plants/:id`
+
+PUT - 
+    `/plants/:id`
+    
+
+POST - 
+    `/plants`
+    `(required plant properties: user_id, nickname, species, h2oFrequency)`
+
+DELETE - 
+    `/plants/:id`
